@@ -28,6 +28,7 @@ ALL_LIB = libcommon.a
 ALL_LIB += libdriver.a
 ALL_LIB += libglib.a
 ALL_LIB += librtos.a
+ALL_LIB += libmem.a
 ALL_LIB += ./libgcc.A
 
 ALL_SRC = start_up.o $(ALL_LIB)
@@ -49,6 +50,9 @@ libcommon.a:
 
 libdriver.a:
 	$(MAKE) -C driver
+
+libmem.a:
+	$(MAKE) -C mem
 
 start_up.o:
 	$(AS) $(ASFLAGS) -o start_up.o -c ./cm3/start_up.S

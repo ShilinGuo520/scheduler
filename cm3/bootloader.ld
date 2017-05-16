@@ -47,5 +47,5 @@ SECTIONS
 	.stack :
 	{
 	} > RAM
-	stack_top = 0x20005000;
+	stack_top = 0x2000a000;
 }
