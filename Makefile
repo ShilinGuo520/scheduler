@@ -28,7 +28,7 @@ ALL_LIB = libcommon.a
 ALL_LIB += libdriver.a
 ALL_LIB += libglib.a
 ALL_LIB += librtos.a
-ALL_LIB += /home/shilinguo/stm32/tools/gcc-arm-none-eabi-5_4-2016q3/lib/gcc/arm-none-eabi/5.4.1/armv7e-m/softfp/libgcc.a
+ALL_LIB += ./libgcc.A
 
 ALL_SRC = start_up.o $(ALL_LIB)
 
