@@ -63,5 +63,6 @@ clean:
 	$(MAKE)	clean -C driver
 	$(MAKE) clean -C glib
 	$(MAKE) clean -C RTOS
+	$(MAKE) clean -C mem
 	rm -f *.o *.a *.elf *.bin *.txt
 
