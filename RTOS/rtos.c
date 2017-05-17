@@ -3,14 +3,35 @@
 #include "systick.h"
 #include "leds.h"
 #include "timer.h"
+#include "mem.h"
+
 
 void task_init(void);
 
 void task_print(void)
 {
 	int t = 0;
-	while(1)
+	char *p;
+	char *p1;
+	int i;
+	while(1) {
+		i = 0;
 		printf("task_print %d \n\r",t++);
+		p = malloc(100);
+		p1 = p;
+		printf("Debug# line: %d \n\r", __LINE__);
+		printf("Debug# p=0x%x \n\r", p);
+		while(i < 100) {
+			printf("Debug# line: %d \n\r", __LINE__);
+			*p = i++;
+			p++;
+		}
+		while(i--) {
+			printf("p[%d] = %d \n\r", i, *p);
+			p--;
+		}
+		free(p1);
+	}
 }
 
 
@@ -53,7 +74,8 @@ void task_init(void)
 
 
 
-void* tick_and_switch(void* cur_stack){
+void* tick_and_switch(void* cur_stack)
+{
     void* temp ;
 
 	temp = next_stack;

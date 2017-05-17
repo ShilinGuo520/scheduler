@@ -6,6 +6,7 @@
 #include "glib.h"
 #include "timer.h"
 #include "rtos.h"
+#include "mem.h"
 
 void __MSR_MSP(u32 TopOfMainStack);
 

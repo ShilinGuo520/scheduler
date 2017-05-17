@@ -1,4 +1,6 @@
 #include "mem.h"
+#include "glib.h"
+
 
 #define MEM_BASE    0x2000a000
 #define MEM_SIZE    0x00005000  //20K
@@ -22,6 +24,7 @@ void * malloc(int size)
             } else {
                 if (find == 0)
                     ret = (void *)(MEM_BASE + ((i * 8) + j) * BLOCK_SIZE);
+					printf("malloc: add=0x%x \n\r", (MEM_BASE + ((i * 8) + j) * BLOCK_SIZE));
                 find = find + BLOCK_SIZE;
 
                 if (find >= size) {
