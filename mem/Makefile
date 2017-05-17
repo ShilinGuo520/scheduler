@@ -3,7 +3,7 @@ MCU      = cortex-m3
 SUBMDL   = stm32f103
 
 TARGET = libmem.a
-SRC = mem.o
+SRC = mem.o list.o
 
 # toolchain (using code sourcery now)
 THUMB    = -mthumb
