@@ -1,5 +1,4 @@
 #include "mem.h"
-#include "glib.h"
 
 
 #define MEM_BASE    0x2000a000
@@ -12,9 +11,11 @@ unsigned char mem_map[MAP_SIZE];
 
 void * malloc(int size)
 {
-    void * ret;
-    int find;
+    void * ret = NULL;
+    int find = 0;
     int i,j;
+    if(size <= 0)
+        return ret;
     for (i = 0; i < (MEM_SIZE); i++) {
         for (j = 0; j < 8; j++) {
             if (mem_map[i] & (1 << j)) {
@@ -23,8 +24,7 @@ void * malloc(int size)
                continue;
             } else {
                 if (find == 0)
-                    ret = (void *)(MEM_BASE + ((i * 8) + j) * BLOCK_SIZE);
-					printf("malloc: add=0x%x \n\r", (MEM_BASE + ((i * 8) + j) * BLOCK_SIZE));
+                    ret = (void *)(long)(MEM_BASE + ((i * 8) + j) * BLOCK_SIZE);
                 find = find + BLOCK_SIZE;
 
                 if (find >= size) {
@@ -32,11 +32,11 @@ void * malloc(int size)
                     if(j >= 8) {
                         j = 0;
                         i++;
-                    } //set slot
-                    while (find >= 0) {
+                    }
+                    while (find > 0) {
                         mem_map[i] |= (1 << j--);
                         find = find - BLOCK_SIZE;
-                        if (j <= 0) {
+                        if (j < 0) {
                             j = 7;
                             i--;
                         }
@@ -46,16 +46,19 @@ void * malloc(int size)
             }
         }
     }
-
     return NULL;
 }
 
 int free(void *mem)
 {
-    int mem_add = (int)mem;
+    long mem_add = (long)mem;
     int i = (mem_add - MEM_BASE)/BLOCK_SIZE/8;
-    int j = ((mem_add - MEM_BASE)/BLOCK_SIZE)%8;
-    while (mem_map[i] & (1 << j)) {
+    int j = (((mem_add - MEM_BASE)/BLOCK_SIZE)%8) + 1;
+    if(j >= 8) {
+        i++;
+        j = 0;
+    }
+    while ((mem_map[i] & (1 << j)) && ( i < MAP_SIZE )) {
         mem_map[i] &= ~(1 << j);
         j++;
         if(j >= 8) {
@@ -64,3 +67,4 @@ int free(void *mem)
         }
     }
 }
+
