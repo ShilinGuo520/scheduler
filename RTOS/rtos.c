@@ -10,8 +10,9 @@ void task_init(void);
 
 void task_print(void)
 {
+	int i = 0;
 	while(1) {
-		printf("task_print\n\r");
+		printf("t 01 i=%d\n\r", i++);
 	}
 }
 

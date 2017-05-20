@@ -22,7 +22,7 @@
 #define SYSTICK_CVR_SKEW                BIT(30)
 #define SYSTICK_CVR_TENMS               0xFFFFFF
 
-#define SYSTICK_RELOAD_VAL 71999
+#define SYSTICK_RELOAD_VAL 71999	//1K 0.1K
 
 /** SysTick register map type */
 typedef struct systick_reg_map {

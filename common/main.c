@@ -34,7 +34,7 @@ int main()
 	rtos_start();
 
 	while(1) {
-		printf("task main\n\r");
+		printf("t m i=%d \n\r",ti++);
 	}
 
 	return 0;
