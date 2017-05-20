@@ -11,12 +11,14 @@ unsigned char mem_map[MAP_SIZE];
 
 void * malloc(int size)
 {
-    DISABLE_INTERRUPT();
+    portDISABLE_INTERRUPTS();
     void * ret = NULL;
     int find = 0;
     int i,j;
-    if(size <= 0)
+    if(size <= 0) {
+        portENABLE_INTERRUPTS();
         return ret;
+    }
 
     size = size + BLOCK_SIZE - 1;
 
@@ -45,16 +47,19 @@ void * malloc(int size)
                             i--;
                         }
                     }
+                    portENABLE_INTERRUPTS();
                     return ret;
                 }
             }
         }
     }
+    portENABLE_INTERRUPTS();
     return NULL;
 }
 
 int free(void *mem)
 {
+    portDISABLE_INTERRUPTS();
     long mem_add = (long)mem;
     int i = (mem_add - MEM_BASE)/BLOCK_SIZE/8;
     int j = (((mem_add - MEM_BASE)/BLOCK_SIZE)%8) + 1;
@@ -70,5 +75,6 @@ int free(void *mem)
             j = 0;
         }
     }
+    portENABLE_INTERRUPTS();
 }
 

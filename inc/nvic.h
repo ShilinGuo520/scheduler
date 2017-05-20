@@ -64,14 +64,32 @@ extern void nvicInit(NVIC_InitTypeDef *NVIC_InitStruct);
 extern void nvic_disable_interrupts(void);
 extern void nvic_vtor_remapping(unsigned int offset);
 
-#define DISABLE_INTERRUPT()                             \
-    __asm volatile                                      \
-    (                                                   \
-        "   cpsid i                                  \n"\
-    )
+#define configMAX_SYSCALL_INTERRUPT_PRIORITY 	191 /* equivalent to 0xb0, or priority 11. */
 
-#define ENABLE_INTERRUPT()                              \
-    __asm volatile                                      \
-    (                                                   \
-        "   cpsie i                                  \n"\
-    )
+/*
+ * Set basepri to portMAX_SYSCALL_INTERRUPT_PRIORITY without effecting other
+ * registers.  r0 is clobbered.
+ */ 
+#define portSET_INTERRUPT_MASK()						\
+	__asm volatile										\
+	(													\
+		"	mov r0, %0								\n"	\
+		"	msr basepri, r0							\n" \
+		::"i"(configMAX_SYSCALL_INTERRUPT_PRIORITY):"r0"	\
+	)
+	
+/*
+ * Set basepri back to 0 without effective other registers.
+ * r0 is clobbered.
+ */
+#define portCLEAR_INTERRUPT_MASK()			\
+	__asm volatile							\
+	(										\
+		"	mov r0, #0					\n"	\
+		"	msr basepri, r0				\n"	\
+		:::"r0"								\
+	)
+
+#define portDISABLE_INTERRUPTS()	portSET_INTERRUPT_MASK()
+#define portENABLE_INTERRUPTS()		portCLEAR_INTERRUPT_MASK()
+
