@@ -19,10 +19,7 @@ void task_print(void)
 		printf("task_print %d \n\r",t++);
 		p = malloc(100);
 		p1 = p;
-		printf("Debug# line: %d \n\r", __LINE__);
-		printf("Debug# p=0x%x \n\r", p);
 		while(i < 100) {
-			printf("Debug# line: %d \n\r", __LINE__);
 			*p = i++;
 			p++;
 		}
