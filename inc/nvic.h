@@ -64,4 +64,14 @@ extern void nvicInit(NVIC_InitTypeDef *NVIC_InitStruct);
 extern void nvic_disable_interrupts(void);
 extern void nvic_vtor_remapping(unsigned int offset);
 
+#define DISABLE_INTERRUPT()                             \
+    __asm volatile                                      \
+    (                                                   \
+        "   cpsid i                                  \n"\
+    )
 
+#define ENABLE_INTERRUPT()                              \
+    __asm volatile                                      \
+    (                                                   \
+        "   cpsie i                                  \n"\
+    )

@@ -1,5 +1,5 @@
 #include "mem.h"
-
+#include "nvic.h"
 
 #define MEM_BASE    0x2000a000
 #define MEM_SIZE    0x00005000  //20K
@@ -11,6 +11,7 @@ unsigned char mem_map[MAP_SIZE];
 
 void * malloc(int size)
 {
+    DISABLE_INTERRUPT();
     void * ret = NULL;
     int find = 0;
     int i,j;
