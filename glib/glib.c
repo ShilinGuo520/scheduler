@@ -41,6 +41,9 @@ typedef char* va_list;
 #define LARGE   64              // Use 'ABCDEF' instead of 'abcdef'
 
 #define is_digit(c) ((c) >= '0' && (c) <= '9')
+static char *digits = "0123456789abcdefghijklmnopqrstuvwxyz";
+static char *upper_digits = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
 
 int strnlen(const char *s, int count)
 {
@@ -70,9 +73,6 @@ static int skip_atoi(const char **s)
 
 static char *number(char *str, long num, int base, int size, int precision, int type)
 {
-    static char *digits = "0123456789abcdefghijklmnopqrstuvwxyz";
-    static char *upper_digits = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-
     char c, sign, tmp[66];
     char *dig = digits;
     int i;
