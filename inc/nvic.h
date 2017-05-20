@@ -71,23 +71,19 @@ extern void nvic_vtor_remapping(unsigned int offset);
  * registers.  r0 is clobbered.
  */ 
 #define portSET_INTERRUPT_MASK()						\
-	__asm volatile										\
-	(													\
-		"	mov r0, %0								\n"	\
-		"	msr basepri, r0							\n" \
-		::"i"(configMAX_SYSCALL_INTERRUPT_PRIORITY):"r0"	\
+	__asm volatile								\
+	(									\
+		"cpsid	i					\n"	\
 	)
 	
 /*
  * Set basepri back to 0 without effective other registers.
  * r0 is clobbered.
  */
-#define portCLEAR_INTERRUPT_MASK()			\
-	__asm volatile							\
-	(										\
-		"	mov r0, #0					\n"	\
-		"	msr basepri, r0				\n"	\
-		:::"r0"								\
+#define portCLEAR_INTERRUPT_MASK()						\
+	__asm volatile								\
+	(									\
+		"cpsie	i					\n"	\
 	)
 
 #define portDISABLE_INTERRUPTS()	portSET_INTERRUPT_MASK()

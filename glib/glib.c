@@ -1,6 +1,7 @@
 #include "glib.h"
 #include "types.h"
 #include "uart.h"
+#include "nvic.h"
 
 void memcpy(unsigned char *dec, unsigned char *src, int size)
 {
@@ -370,8 +371,9 @@ int printf(const char *fmt, ...)
 	va_start(args, fmt);
 	n = vsprintf(buf, fmt, args);
 	va_end(args);
-
+	portDISABLE_INTERRUPTS();
 	fputs(buf);
+	portENABLE_INTERRUPTS();
 }
 
 

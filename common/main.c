@@ -34,14 +34,7 @@ int main()
 	rtos_start();
 
 	while(1) {
-		set_time_out(100);
-		while(get_time_out())
-			;
-		led_on(1);
-		set_time_out(100);
-        while(get_time_out())
-            ;
-		led_off(1);
+		printf("task main\n\r");
 	}
 
 	return 0;

@@ -10,24 +10,8 @@ void task_init(void);
 
 void task_print(void)
 {
-	int t = 0;
-	char *p;
-	char *p1;
-	int i;
 	while(1) {
-		i = 0;
-		printf("task_print %d \n\r",t++);
-		p = malloc(100);
-		p1 = p;
-		while(i < 100) {
-			*p = i++;
-			p++;
-		}
-		while(i--) {
-			printf("p[%d] = %d \n\r", i, *p);
-			p--;
-		}
-		free(p1);
+		printf("task_print\n\r");
 	}
 }
 
