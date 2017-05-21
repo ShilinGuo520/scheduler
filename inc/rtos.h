@@ -1,6 +1,6 @@
 #include "types.h"
 
-extern void task_print(void);
 extern void rtos_start(void);
-extern void task_leds(void);
+extern int creat_task(void (*func), int stack_size);
+
 

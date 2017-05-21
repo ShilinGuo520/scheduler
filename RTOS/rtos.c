@@ -8,6 +8,8 @@
 
 #define	IDLE_TASK_STACK_SIZE		256
 
+typedef void(*ins_ptr)(void);
+
 void idle_task(void)
 {
 	int i = 0;
@@ -15,24 +17,6 @@ void idle_task(void)
 		printf("idle task i=%d\n\r", i++);
 	}
 }
-
-void func_task02(void)
-{
-        int i = 0;
-        while(1) {
-                printf("t 02 i=%d\n\r", i++);
-        }
-}
-
-void func_task03(void)
-{
-        int i = 0;
-        while(1) {
-                printf("t 03 i=%d\n\r", i++);
-        }
-}
-
-typedef void(*ins_ptr)(void);
 
 struct task_init_stack_frame {
     u32 r4_to_r11[8];       // lower address
@@ -83,31 +67,28 @@ void task_init(void)
 
 int creat_task(void (*func), int stack_size)
 {
-        struct task_list *p;
-        struct task_p *task;
+    struct task_list *p;
+    struct task_p *task;
 
-	task = malloc(sizeof(struct task_p));
-        task->stack = malloc(stack_size);
-        task->base = malloc(sizeof(struct task_init_stack_frame));
-        task->base->r0 = 0;
-        task->base->pc = (ins_ptr)(func);
-        task->base->lr = 0;
-        task->base->xpsr = 0x61000000;
-        task->basep = task->base;
+    task = malloc(sizeof(struct task_p));
+    task->stack = malloc(stack_size);
+    task->base = malloc(sizeof(struct task_init_stack_frame));
+    task->base->r0 = 0;
+    task->base->pc = (ins_ptr)(func);
+    task->base->lr = 0;
+    task->base->xpsr = 0x61000000;
+    task->basep = task->base;
 
-        p = malloc(sizeof(struct task_list));
-        p->next = head.next;
-        head.next = p;
-        p->task = task;
+    p = malloc(sizeof(struct task_list));
+    p->next = head.next;
+    head.next = p;
+    p->task = task;
 }
 
 void rtos_start(void)                                                           
 {
-        task_init();
-        systick_init(71999);
-
-	creat_task(func_task02, 256);
-	creat_task(func_task03, 256);
+    task_init();
+    systick_init(71999);
 
 __asm volatile (
 	"ldr r0,=0x2000a11c		\n"
