@@ -4,90 +4,129 @@
 #include "leds.h"
 #include "timer.h"
 #include "mem.h"
-#include "types.h"
 
-#define     IDE_TASK_STACK      256
 
-#define     TASK_STATUS_DONE    1
-struct task_pcb {
-    unsigned char status;
-    unsigned long *task_stack;
-};
+#define	IDLE_TASK_STACK_SIZE		256
 
-struct task_list_p {
-    struct task_pcb task;
-    struct task_list_p *next;
-};
-
-struct task_list_p *task_head;
-struct task_list_p *task_run;
-
-int creat_task(void (*func), int stack_size)
-{
-    unsigned long *stack;
-    struct task_list_p *task = malloc(sizeof(struct task_list_p));
-    task->next = task_head->next;
-    task_head->next = task;
-
-    stack = malloc(stack_size);
-    if(stack == NULL)
-        return -1;
-
-    stack = stack + ((stack_size/4)*4);
-    task->task.task_stack = stack;
-
-    *stack-- = 0x61000000;
-    *stack-- = (unsigned long)(func);
-
-    memset((unsigned char *)stack, 0, 14 * 4);
-
-    task->task.status = TASK_STATUS_DONE;
-}
-
-void ide_task(void);
-
-void task_init(void)
-{
-    unsigned long *stack;
-    task_head = malloc(sizeof(struct task_list_p));
-    task_head->next = task_head;
-    stack = malloc(IDE_TASK_STACK);
-    
-    stack = stack + ((IDE_TASK_STACK/4)*4);
-    task_head->task.task_stack = stack;
-
-    *stack-- = 0x61000000;
-    *stack-- = (unsigned long)(ide_task);
-
-    memset((unsigned char *)stack, 0, 14 * 4) ;
-
-    task_run = task_head;
-
-    task_head->task.status = TASK_STATUS_DONE;
-}
-
-void ide_task(void)
+void idle_task(void)
 {
 	int i = 0;
 	while(1) {
-		printf("ide i=%d\n\r", i++);
+		printf("idle task i=%d\n\r", i++);
 	}
 }
 
-
-void rtos_start(void)
+void func_task02(void)
 {
-	task_init();
-	systick_init(71999);
+        int i = 0;
+        while(1) {
+                printf("t 02 i=%d\n\r", i++);
+        }
+}
+
+void func_task03(void)
+{
+        int i = 0;
+        while(1) {
+                printf("t 03 i=%d\n\r", i++);
+        }
+}
+
+typedef void(*ins_ptr)(void);
+
+struct task_init_stack_frame {
+    u32 r4_to_r11[8];       // lower address
+    u32 r0;
+    u32 r1;
+    u32 r2;
+    u32 r3;
+    u32 r12;
+    u32 lr;
+    ins_ptr pc;
+    u32 xpsr;               // higher address
+};
+
+struct task_p {
+    struct task_init_stack_frame *base;
+    unsigned char *stack;
+    void *basep;
+};
+
+struct task_list {
+    struct task_p *task;
+    struct task_list *next;
+};
+
+
+struct task_list head;
+struct task_list *run;
+
+void task_init(void)
+{
+	struct task_list *p;
+	struct task_p *task;
+	
+	task = malloc(sizeof(struct task_p));
+	task->stack = malloc(IDLE_TASK_STACK_SIZE);
+	task->base = malloc(sizeof(struct task_init_stack_frame));
+
+	task->base->r0 = 0;
+	task->base->pc = (ins_ptr)(&idle_task);
+	task->base->lr = 0;
+	task->base->xpsr = 0x61000000;
+	task->basep = task->base;
+
+	head.task = task;
+        head.next = &head;
+	run = &head;
+}
+
+int creat_task(void (*func), int stack_size)
+{
+        struct task_list *p;
+        struct task_p *task;
+
+	task = malloc(sizeof(struct task_p));
+        task->stack = malloc(stack_size);
+        task->base = malloc(sizeof(struct task_init_stack_frame));
+        task->base->r0 = 0;
+        task->base->pc = (ins_ptr)(func);
+        task->base->lr = 0;
+        task->base->xpsr = 0x61000000;
+        task->basep = task->base;
+
+        p = malloc(sizeof(struct task_list));
+        p->next = head.next;
+        head.next = p;
+        p->task = task;
+}
+
+void rtos_start(void)                                                           
+{
+        task_init();
+        systick_init(71999);
+
+	creat_task(func_task02, 256);
+	creat_task(func_task03, 256);
+
+__asm volatile (
+	"ldr r0,=0x2000a11c		\n"
+	"mov sp,r0			\n"
+	"pop {r4-r11}			\n"
+	"pop {r0-r3}			\n"
+	"pop {r12}			\n"
+	"pop {lr}			\n"
+	"pop {pc}			\n"
+	);
 }
 
 
 void* tick_and_switch(void* cur_stack)
 {
-    void *temp;
-    task_run->task.task_stack = cur_stack;
-    task_run = task_run->next;
-    temp = task_run->task.task_stack;
+    void* temp ;
+    run->task->basep = cur_stack;
+    run = run->next;
+    temp = run->task->basep;
     return temp;
 }
 
@@ -111,4 +150,5 @@ __asm volatile (
 "end:             			\n"
 	);
 }
+
 
