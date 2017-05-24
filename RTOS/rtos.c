@@ -60,9 +60,11 @@ void task_init(void)
 	task->base->xpsr = 0x61000000;
 	task->basep = task->base;
 
+    portDISABLE_INTERRUPTS();
 	head.task = task;
-        head.next = &head;
+    head.next = &head;
 	run = &head;
+    portENABLE_INTERRUPTS();	
 }
 
 int creat_task(void (*func), int stack_size)
@@ -80,9 +82,12 @@ int creat_task(void (*func), int stack_size)
     task->basep = task->base;
 
     p = malloc(sizeof(struct task_list));
+
+    portDISABLE_INTERRUPTS();
     p->next = head.next;
     head.next = p;
     p->task = task;
+    portENABLE_INTERRUPTS();
 }
 
 void rtos_start(void)                                                           
