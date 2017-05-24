@@ -1,7 +1,7 @@
 #include "glib.h"
 #include "types.h"
 #include "uart.h"
-#include "nvic.h"
+#include "rtos.h"
 
 void memcpy(unsigned char *dec, unsigned char *src, int size)
 {

@@ -1,5 +1,5 @@
 #include "mem.h"
-#include "nvic.h"
+#include "rtos.h"
 
 #define MEM_BASE    0x2000a000
 #define MEM_SIZE    0x00005000  //20K

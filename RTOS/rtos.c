@@ -87,7 +87,6 @@ int creat_task(void (*func), int stack_size)
 
 void rtos_start(void)                                                           
 {
-    task_init();
     systick_init(71999);
 
 __asm volatile (
