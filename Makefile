@@ -43,7 +43,7 @@ libglib.a:
 	$(MAKE) -C glib
 
 librtos.a:
-	$(MAKE) -C RTOS
+	$(MAKE) -C rtos
 
 libcommon.a:
 	$(MAKE) -C common
@@ -62,7 +62,7 @@ clean:
 	$(MAKE) clean -C common
 	$(MAKE)	clean -C driver
 	$(MAKE) clean -C glib
-	$(MAKE) clean -C RTOS
+	$(MAKE) clean -C rtos
 	$(MAKE) clean -C mem
 	rm -f *.o *.a *.elf *.bin *.txt
 
