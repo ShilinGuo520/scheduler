@@ -20,22 +20,22 @@ void info(void)
 
 int main()
 {
-	int ti = 0;
 	nvic_vtor_remapping(APP_START_ADD - 0x08000000);
 	sys_clk_init(9);
 
 	uart_init(72, 115200); 	// 115200
-	led_init(1);
-
-	timer_init(100,719); // 10K 
 
 	info();
 
-	rtos_start();
+    task_init();    //init idle task (head)
 
-	while(1) {
-		printf("t m i=%d \n\r",ti++);
-	}
+    //TODO:creat task
+
+	rtos_start();   //start OS
+
+
+	while(1) 
+        ;           //not run here
 
 	return 0;
 }
