@@ -29,25 +29,3 @@ void systick_enable()
                          SYSTICK_CSR_TICKINT_PEND);
 }
 
-/**
- * @brief Attach a callback to be called from the SysTick exception handler.
- *
- * To detach a callback, call this function again with a null argument.
- */
-void systick_attach_callback(void (*callback)(void)) 
-{
-    systick_user_callback = callback;
-}
-
-/*
- * SysTick ISR
- */
-
-void SysTick_Handler_temp(void) 
-{
-    if (systick_user_callback) {
-        systick_user_callback();
-    }
-}
-
-

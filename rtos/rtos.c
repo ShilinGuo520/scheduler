@@ -31,6 +31,7 @@ struct task_init_stack_frame {
 };
 
 struct task_p {
+    unsigned int status;
     struct task_init_stack_frame *base;
     unsigned char *stack;
     void *basep;
@@ -62,9 +63,11 @@ void task_init(void)
 
     portDISABLE_INTERRUPTS();
 	head.task = task;
-    head.next = &head;
+    	head.next = &head;
 	run = &head;
     portENABLE_INTERRUPTS();	
+
+	task->status = 0x0000;
 }
 
 int creat_task(void (*func), int stack_size)
@@ -88,6 +91,8 @@ int creat_task(void (*func), int stack_size)
     head.next = p;
     p->task = task;
     portENABLE_INTERRUPTS();
+
+    task->status = 0x0000;
 }
 
 void rtos_start(void)                                                           
@@ -95,7 +100,7 @@ void rtos_start(void)
     systick_init(71999);
 
 __asm volatile (
-	"ldr r0,=0x2000a11c		\n"
+	"ldr r0,=0x2000a120		\n"
 	"mov sp,r0			\n"
 	"pop {r4-r11}			\n"
 	"pop {r0-r3}			\n"
@@ -121,18 +126,18 @@ void SysTick_Handler()
 __asm volatile (
 "    mov r0, sp          	\n"
 "    sub r0, #(8*4)      	\n"
-"    push {lr}				\n"
+"    push {lr}			\n"
 "    bl.w tick_and_switch 	\n"
-"    pop {lr}				\n"
-"							\n"
-"    cmp r0,#0   			\n"
-"    beq end				\n"
-"							\n"
+"    pop {lr}			\n"
+"				\n"
+"    cmp r0,#0   		\n"
+"    beq end			\n"
+"				\n"
 "    push {r4-r11}   		\n"
 "    mov sp,r0       		\n"
 "    pop  {r4-r11}   		\n"
-"							\n"
-"end:             			\n"
+"				\n"
+"end:             		\n"
 	);
 }
 
