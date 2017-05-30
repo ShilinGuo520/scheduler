@@ -49,10 +49,45 @@ struct task_list head;
 struct task_list *run;
 int task_id_count;
 
+/*-----------------------------------*/
+struct os_timer {
+	long count;
+	long task_id;
+};
+
+struct os_timer_list {
+	struct os_timer *timer_p;
+	struct os_timer_list *next;
+};
+
+
+void os_delay_init(void)
+{
+	
+}
 
 void os_delay_ms(int time)
 {
-	//TODO
+	
+}
+
+void os_delay_clear()
+{
+	
+}
+/*-----------------------------------*/
+
+
+struct task_list *find_ready_task(struct task_list *task_run)
+{
+	struct task_list *ret_task = task_run->next;
+	while(1) {
+		if (ret_task->task->status) {
+			ret_task = ret_task->next;
+		} else {
+			return ret_task;
+		}
+	}
 }
 
 void task_init(void)
@@ -70,15 +105,16 @@ void task_init(void)
 	task->base->xpsr = 0x61000000;
 	task->basep = task->base;
 
-	printf("add:0x%x \n\r",task->basep);
+//	printf("add:0x%x \n\r",task->basep);
 
     portDISABLE_INTERRUPTS();
 	head.task = task;
     	head.next = &head;
 	run = &head;
 	task_id_count = 0;
+	task->id = task_id_count;
     portENABLE_INTERRUPTS();	
-
+	
 	task->status = 0x0000;
 }
 
@@ -103,10 +139,11 @@ int creat_task(void (*func), int stack_size)
     head.next = p;
     p->task = task;
     task_id_count++;
+    task->id = task_id_count;
     portENABLE_INTERRUPTS();
 
     task->status = 0x0000;
-    return task_id_count;
+    return (task->id);
 }
 
 void rtos_start(void)
@@ -128,8 +165,9 @@ __asm volatile (
 void* tick_and_switch(void* cur_stack)
 {
     void* temp ;
+    os_delay_clear();		//clear task delay timer
     run->task->basep = cur_stack;
-    run = run->next;
+    run = find_ready_task(run);
     temp = run->task->basep;
     return temp;
 }
