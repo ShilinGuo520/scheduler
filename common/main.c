@@ -18,6 +18,19 @@ void info(void)
 	printf("\n\rRam Size:%d\n\r", RAM_SIZE);
 }
 
+void task_01(void)
+{
+	while(1)
+		printf("T-1\n\r");
+}
+
+void task_02(void)
+{
+	while(1)
+		printf("T-2\n\r");
+}
+
+
 int main()
 {
 	nvic_vtor_remapping(APP_START_ADD - 0x08000000);
@@ -27,9 +40,11 @@ int main()
 
 	info();
 
-    task_init();    //init idle task (head)
+    	task_init();    //init idle task (head)
 
-    //TODO:creat task
+    	//TODO:creat task
+	creat_task(task_01, 512);
+	creat_task(task_02, 512);
 
 	rtos_start();   //start OS
 
