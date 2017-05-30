@@ -46,6 +46,11 @@ struct task_list {
 struct task_list head;
 struct task_list *run;
 
+void os_delay_ms(int time)
+{
+	//TODO
+}
+
 void task_init(void)
 {
 	struct task_list *p;
@@ -95,7 +100,7 @@ int creat_task(void (*func), int stack_size)
     task->status = 0x0000;
 }
 
-void rtos_start(void)                                                           
+void rtos_start(void)
 {
     systick_init(71999);
 
