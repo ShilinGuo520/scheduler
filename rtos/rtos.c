@@ -31,9 +31,11 @@ struct task_init_stack_frame {
 };
 
 struct task_p {
-    unsigned int status;
-    struct task_init_stack_frame *base;
+    long id;
+    long priority;
+    unsigned long status;
     unsigned char *stack;
+    struct task_init_stack_frame *base;
     void *basep;
 };
 
@@ -45,6 +47,8 @@ struct task_list {
 
 struct task_list head;
 struct task_list *run;
+int task_id_count;
+
 
 void os_delay_ms(int time)
 {
@@ -66,10 +70,13 @@ void task_init(void)
 	task->base->xpsr = 0x61000000;
 	task->basep = task->base;
 
+	printf("add:0x%x \n\r",task->basep);
+
     portDISABLE_INTERRUPTS();
 	head.task = task;
     	head.next = &head;
 	run = &head;
+	task_id_count = 0;
     portENABLE_INTERRUPTS();	
 
 	task->status = 0x0000;
@@ -95,9 +102,11 @@ int creat_task(void (*func), int stack_size)
     p->next = head.next;
     head.next = p;
     p->task = task;
+    task_id_count++;
     portENABLE_INTERRUPTS();
 
     task->status = 0x0000;
+    return task_id_count;
 }
 
 void rtos_start(void)
@@ -105,7 +114,7 @@ void rtos_start(void)
     systick_init(71999);
 
 __asm volatile (
-	"ldr r0,=0x2000a120		\n"
+	"ldr r0,=0x2000a128		\n"
 	"mov sp,r0			\n"
 	"pop {r4-r11}			\n"
 	"pop {r0-r3}			\n"
