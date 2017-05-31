@@ -3,6 +3,8 @@
 extern void rtos_start(void);
 extern void task_init(void);
 extern int creat_task(void (*func), int stack_size);
+extern void os_delay_ms(int time);
+
 
 /*
  * Set basepri to portMAX_SYSCALL_INTERRUPT_PRIORITY without effecting other

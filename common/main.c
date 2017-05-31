@@ -20,14 +20,36 @@ void info(void)
 
 void task_01(void)
 {
-	while(1)
+	while(1) {
 		printf("T-1\n\r");
+		os_delay_ms(50);
+	}
 }
 
 void task_02(void)
 {
-	while(1)
+	while(1){
 		printf("T-2\n\r");
+//		os_delay_ms(50);
+	}
+}
+
+
+void task_03(void)
+{
+	while(1) {
+		printf("T-3\n\r");
+//		os_delay_ms(25);
+	}
+}
+
+
+void task_04(void)
+{
+	while(1) {
+		printf("T-4\n\r");
+//		os_delay_ms(100);
+	}
 }
 
 
@@ -45,6 +67,8 @@ int main()
     	//TODO:creat task
 	creat_task(task_01, 512);
 	creat_task(task_02, 512);
+	creat_task(task_03, 512);
+	creat_task(task_04, 512);
 
 	rtos_start();   //start OS
 
