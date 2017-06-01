@@ -22,6 +22,7 @@ struct task_list head;
 struct task_list *run;
 int task_id_count;
 
+#if RT
 struct task_list *find_ready_task(struct task_list *task_run)
 {
 	struct task_list *ret_task = task_run->next;
@@ -33,6 +34,32 @@ struct task_list *find_ready_task(struct task_list *task_run)
 		}
 	}
 }
+#else
+struct task_list *find_ready_task(struct task_list *task_run)
+{
+    int count;
+    long cycle = 0;
+    struct task_list *ret_task;
+
+    while (cycle <= PRIORITY_MAX) {
+        count = task_id_count;
+        ret_task = task_run->next;
+        while (count--) {
+           if (ret_task->task->priority == cycle) {
+                if(ret_task->task->status) {
+                    ret_task = ret_task->next;
+                } else {
+                    return ret_task;
+                }
+           } else {
+                ret_task = ret_task->next;
+           }
+        }
+        cycle++;
+    }
+    return ret_task;
+}
+#endif
 
 void task_init(void)
 {

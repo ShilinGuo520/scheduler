@@ -1,6 +1,7 @@
 #include "types.h"
 
 #define PRIORITY_MAX    10
+#define RT              0
 
 typedef void(*ins_ptr)(void);
 
