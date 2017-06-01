@@ -56,7 +56,7 @@ struct os_timer {
 };
 
 struct os_timer_list {
-	struct os_timer *timer_p;
+	struct os_timer timer_p;
 	struct os_timer_list *next;
 };
 
@@ -78,10 +78,10 @@ void os_delay_ms(int time)
     portENABLE_INTERRUPTS();
 
 	printf("%s %d \n\r",__func__, __LINE__);
-	timer_st->timer_p->task_str = run;
-	timer_st->timer_p->count = time;
-	if(timer_st->timer_p->count != 0) {
-		timer_st->timer_p->task_str->task->status |= 0x0001;
+	timer_st->timer_p.task_str = run;
+	timer_st->timer_p.count = time;
+	if(timer_st->timer_p.count != 0) {
+		timer_st->timer_p.task_str->task->status |= 0x0001;
 	}
 	printf("%s %d \n\r",__func__, __LINE__);
 }
@@ -93,9 +93,9 @@ void os_delay_clear()
 	while(timer_temp->next) {
 		temp = timer_temp;
 		timer_temp = timer_temp->next;
-		timer_temp->timer_p->count--;
-		if (timer_temp->timer_p->count <= 0) {
-			timer_temp->timer_p->task_str->task->status &= 0xfffe;
+		timer_temp->timer_p.count--;
+		if (timer_temp->timer_p.count <= 0) {
+			timer_temp->timer_p.task_str->task->status &= 0xfffe;
 
 		portDISABLE_INTERRUPTS();
 			temp->next = timer_temp->next;
