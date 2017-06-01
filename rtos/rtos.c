@@ -88,7 +88,8 @@ int creat_task(void (*func), int stack_size, int priority)
     portENABLE_INTERRUPTS();
 
     task->status = 0x0000;
-    task->priority = priority;
+    priority = MAX(0, priority);
+    task->priority = MIN(PRIORITY_MAX, priority);
     return (task->id);
 }
 

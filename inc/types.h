@@ -33,4 +33,11 @@ typedef unsigned long size_t;
 #define NULL 0
 #endif
 
+#define __max(a,b)  (((a) > (b)) ? (a) : (b))
+#define __min(a,b)  (((a) < (b)) ? (a) : (b))
+
+#define MIN __min
+#define MAX __max
+
+
 #endif
