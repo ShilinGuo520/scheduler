@@ -86,6 +86,7 @@ void os_delay_ms(int time)
 
 void os_delay_clear()
 {
+	struct os_timer_list *free_p;
 	struct os_timer_list *temp;
 	struct os_timer_list *timer_temp = head_timer;
 	while(timer_temp->next) {
@@ -97,10 +98,11 @@ void os_delay_clear()
 
 		portDISABLE_INTERRUPTS();
 			temp->next = timer_temp->next;
-			free(timer_temp);
+			free_p = timer_temp;
 			timer_temp = temp->next;
 		portENABLE_INTERRUPTS();
 
+			free(free_p);
 		}
 	}
 }
