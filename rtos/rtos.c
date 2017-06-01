@@ -14,7 +14,7 @@ void idle_task(void)
 {
 	int i = 0;
 	while(1) {
-		printf("idle task i=%d\n\r", i++);
+//		printf("idle task i=%d\n\r", i++);
 	}
 }
 
@@ -77,13 +77,11 @@ void os_delay_ms(int time)
 	head_timer->next = timer_st;
     portENABLE_INTERRUPTS();
 
-	printf("%s %d \n\r",__func__, __LINE__);
 	timer_st->timer_p.task_str = run;
 	timer_st->timer_p.count = time;
 	if(timer_st->timer_p.count != 0) {
 		timer_st->timer_p.task_str->task->status |= 0x0001;
 	}
-	printf("%s %d \n\r",__func__, __LINE__);
 }
 
 void os_delay_clear()

@@ -20,35 +20,39 @@ void info(void)
 
 void task_01(void)
 {
+	int i = 0;
 	while(1) {
-		printf("T-1\n\r");
-		os_delay_ms(50);
+		printf("T-1 time:%d\n\r", i++);
+		os_delay_ms(560);
 	}
 }
 
 void task_02(void)
 {
+	int i = 0;
 	while(1){
-		printf("T-2\n\r");
-//		os_delay_ms(50);
+		printf("T-2 time:%d\n\r", i++);
+		os_delay_ms(3050);
 	}
 }
 
 
 void task_03(void)
 {
+	int i = 0;
 	while(1) {
-		printf("T-3\n\r");
-//		os_delay_ms(25);
+		printf("T-3 time:%d\n\r", i++);
+		os_delay_ms(2500);
 	}
 }
 
 
 void task_04(void)
 {
+	int i = 0;
 	while(1) {
-		printf("T-4\n\r");
-//		os_delay_ms(100);
+		printf("T-4 time:%d\n\r", i++);
+		os_delay_ms(1000);
 	}
 }
 
