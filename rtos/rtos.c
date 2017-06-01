@@ -75,9 +75,9 @@ void os_delay_ms(int time)
     portDISABLE_INTERRUPTS();
 	timer_st->next = head_timer->next;
 	head_timer->next = timer_st;
+	timer_st->timer_p.task_str = run;
     portENABLE_INTERRUPTS();
 
-	timer_st->timer_p.task_str = run;
 	timer_st->timer_p.count = time;
 	if(timer_st->timer_p.count != 0) {
 		timer_st->timer_p.task_str->task->status |= 0x0001;
