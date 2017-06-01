@@ -8,7 +8,6 @@
 
 #define	IDLE_TASK_STACK_SIZE		256
 
-typedef void(*ins_ptr)(void);
 
 void idle_task(void)
 {
@@ -18,96 +17,10 @@ void idle_task(void)
 	}
 }
 
-struct task_init_stack_frame {
-    u32 r4_to_r11[8];       // lower address
-    u32 r0;
-    u32 r1;
-    u32 r2;
-    u32 r3;
-    u32 r12;
-    u32 lr;
-    ins_ptr pc;
-    u32 xpsr;               // higher address
-};
-
-struct task_p {
-    long id;
-    long priority;
-    unsigned long status;
-    unsigned char *stack;
-    struct task_init_stack_frame *base;
-    void *basep;
-};
-
-struct task_list {
-    struct task_p *task;
-    struct task_list *next;
-};
-
 
 struct task_list head;
 struct task_list *run;
 int task_id_count;
-
-/*-----------------------------------*/
-struct os_timer {
-	long count;
-	struct task_list *task_str;
-};
-
-struct os_timer_list {
-	struct os_timer timer_p;
-	struct os_timer_list *next;
-};
-
-struct os_timer_list *head_timer;
-
-void os_delay_init(void)
-{
-	head_timer = malloc(sizeof(struct os_timer_list));
-	head_timer->next = NULL;
-}
-
-void os_delay_ms(int time)
-{
-	struct os_timer_list *timer_st;
-	timer_st = malloc(sizeof(struct os_timer_list));
-    portDISABLE_INTERRUPTS();
-	timer_st->next = head_timer->next;
-	head_timer->next = timer_st;
-	timer_st->timer_p.task_str = run;
-    portENABLE_INTERRUPTS();
-
-	timer_st->timer_p.count = time;
-	if(timer_st->timer_p.count != 0) {
-		timer_st->timer_p.task_str->task->status |= 0x0001;
-	}
-}
-
-void os_delay_clear()
-{
-	struct os_timer_list *free_p;
-	struct os_timer_list *temp;
-	struct os_timer_list *timer_temp = head_timer;
-	while(timer_temp->next) {
-		temp = timer_temp;
-		timer_temp = timer_temp->next;
-		timer_temp->timer_p.count--;
-		if (timer_temp->timer_p.count <= 0) {
-			timer_temp->timer_p.task_str->task->status &= 0xfffe;
-
-		portDISABLE_INTERRUPTS();
-			temp->next = timer_temp->next;
-			free_p = timer_temp;
-			timer_temp = temp->next;
-		portENABLE_INTERRUPTS();
-
-			free(free_p);
-		}
-	}
-}
-/*-----------------------------------*/
-
 
 struct task_list *find_ready_task(struct task_list *task_run)
 {

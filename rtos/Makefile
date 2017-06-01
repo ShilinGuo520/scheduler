@@ -4,7 +4,7 @@ ARCH	 = armv7-m
 SUBMDL   = stm32f103
 
 TARGET = librtos.a
-SRC = rtos.o systick.o
+SRC = rtos.o os_delay.o systick.o
 
 # toolchain (using code sourcery now)
 THUMB    = -mthumb
