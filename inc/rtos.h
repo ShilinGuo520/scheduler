@@ -1,5 +1,7 @@
 #include "types.h"
 
+#define PRIORITY_MAX    10
+
 typedef void(*ins_ptr)(void);
 
 struct task_init_stack_frame {
@@ -41,7 +43,7 @@ struct os_timer_list {
 
 extern void rtos_start(void);
 extern void task_init(void);
-extern int creat_task(void (*func), int stack_size);
+extern int creat_task(void (*func), int stack_size, int priority);
 extern void os_delay_init(void);
 extern void os_delay_clear(void);
 extern void os_delay_ms(int time);

@@ -60,9 +60,10 @@ void task_init(void)
     portENABLE_INTERRUPTS();	
 	
 	task->status = 0x0000;
+    task->priority = PRIORITY_MAX;
 }
 
-int creat_task(void (*func), int stack_size)
+int creat_task(void (*func), int stack_size, int priority)
 {
     struct task_list *p;
     struct task_p *task;
@@ -87,6 +88,7 @@ int creat_task(void (*func), int stack_size)
     portENABLE_INTERRUPTS();
 
     task->status = 0x0000;
+    task->priority = priority;
     return (task->id);
 }
 

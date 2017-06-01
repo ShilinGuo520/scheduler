@@ -69,10 +69,10 @@ int main()
     	task_init();    //init idle task (head)
 
     	//TODO:creat task
-	creat_task(task_01, 512);
-	creat_task(task_02, 512);
-	creat_task(task_03, 512);
-	creat_task(task_04, 512);
+	creat_task(task_01, 512, 10);
+	creat_task(task_02, 512, 10);
+	creat_task(task_03, 512, 10);
+	creat_task(task_04, 512, 10);
 
 	rtos_start();   //start OS
 
