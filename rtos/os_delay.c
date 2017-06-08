@@ -1,4 +1,4 @@
-#include "rtos.h"                                                                                                                                      
+#include "rtos.h"
 #include "glib.h"
 #include "systick.h"
 #include "leds.h"
@@ -18,6 +18,9 @@ void os_delay_init(void)
 void os_delay_ms(int time)
 {
 	struct os_timer_list *timer_st;
+    if ((run->task->status) && (0x0001)) {
+        return ;
+    }
 	timer_st = malloc(sizeof(struct os_timer_list));
     portDISABLE_INTERRUPTS();
 	timer_st->next = head_timer->next;
