@@ -64,11 +64,16 @@ struct os_timer_list {
 extern void rtos_start(void);
 extern void task_init(void);
 extern int creat_task(void (*func), int stack_size, int priority);
+
 extern void os_delay_init(void);
 extern void os_delay_clear(void);
 extern void os_delay_ms(int time);
 
 extern struct task_list *find_task_by_id(int task_id);
+extern struct task_list *get_run_task(void);
+
+extern int send_msg_queues(int recv_id, void *msg);
+extern void *recv_msg_queues(void);
 
 /*
  * Set basepri to portMAX_SYSCALL_INTERRUPT_PRIORITY without effecting other

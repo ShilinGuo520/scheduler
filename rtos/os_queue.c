@@ -26,7 +26,32 @@ int send_msg_queues(int recv_id, void *msg)
     queues_list->next->msg.data = msg;
     queues_list = queues_list->next;
 
-    recv_task->task->status |= 0x0002;
+
+    recv_task->task->status &= ~(0x0002);
+    recv_task->task->msg_list.msg_count++;
+
     return 0;
 }
+
+void *recv_msg_queues(void)
+{
+    void *msg;
+    struct msg_queues_list *recv_queues;
+    struct task_list *recv_task = get_run_task();
+    if (recv_task->task->status && (0x0002)) {
+        return NULL;
+    } else {
+        if (recv_task->task->msg_list.msg_count) {
+            msg = recv_task->task->msg_list.head->msg.data;
+            recv_queues = recv_task->task->msg_list.head;
+            recv_task->task->msg_list.head = recv_task->task->msg_list.head->next;
+            recv_task->task->msg_list.msg_count--;
+            return msg;
+        } else {
+            recv_task->task->status |= 0x0002;
+            return NULL;
+        }
+    }
+}
+
 

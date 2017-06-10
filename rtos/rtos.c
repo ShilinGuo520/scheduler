@@ -23,6 +23,11 @@ struct task_list *run;
 int task_id_count;
 
 
+struct task_list *get_run_task(void)
+{
+    return run;
+}
+
 struct task_list *find_task_by_id(int task_id)
 {
     struct task_list *ret = &head;
