@@ -22,6 +22,17 @@ struct task_list head;
 struct task_list *run;
 int task_id_count;
 
+
+struct task_list *find_task_by_id(int task_id)
+{
+    struct task_list *ret = &head;
+    while((task_id--) && (ret->next)) {
+        ret = ret->next;
+    }
+    return ret;
+}
+
+
 #if RT
 struct task_list *find_ready_task(struct task_list *task_run)
 {
@@ -103,6 +114,9 @@ int creat_task(void (*func), int stack_size, int priority)
     task->base->lr = 0;
     task->base->xpsr = 0x61000000;
     task->basep = task->base;
+
+    task->msg_list.head = NULL;
+    task->msg_list.msg_count = 0;
 
     p = malloc(sizeof(struct task_list));
 

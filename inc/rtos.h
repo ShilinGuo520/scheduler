@@ -17,9 +17,28 @@ struct task_init_stack_frame {
     u32 xpsr;               // higher address
 };
 
+
+
+struct msg_queues {
+    int recv_id;
+    int send_id;
+    void *data;
+};
+
+struct msg_queues_list {
+    struct msg_queues msg;
+    struct msg_queues_list *next;
+};
+
+struct task_msg {
+    int msg_count;
+    struct msg_queues_list *head;
+};
+
 struct task_p {
     long id;
     long priority;
+    struct task_msg msg_list;
     unsigned long status;
     unsigned char *stack;
     struct task_init_stack_frame *base;
@@ -49,6 +68,7 @@ extern void os_delay_init(void);
 extern void os_delay_clear(void);
 extern void os_delay_ms(int time);
 
+extern struct task_list *find_task_by_id(int task_id);
 
 /*
  * Set basepri to portMAX_SYSCALL_INTERRUPT_PRIORITY without effecting other
