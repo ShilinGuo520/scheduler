@@ -45,7 +45,8 @@ void *recv_msg_queues(void)
             msg = recv_task->task->msg_list.head->msg.data;
             recv_queues = recv_task->task->msg_list.head;
             recv_task->task->msg_list.head = recv_task->task->msg_list.head->next;
-            recv_task->task->msg_list.msg_count--;
+	   free(recv_queues); 
+           recv_task->task->msg_list.msg_count--;
             return msg;
         } else {
             recv_task->task->status |= 0x0002;

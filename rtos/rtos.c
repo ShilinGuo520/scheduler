@@ -92,7 +92,7 @@ void task_init(void)
 	task->base->xpsr = 0x61000000;
 	task->basep = task->base;
 
-//	printf("add:0x%x \n\r",task->basep);
+	printf("add:0x%x \n\r",task->basep);
 
     portDISABLE_INTERRUPTS();
 	head.task = task;
@@ -145,7 +145,7 @@ void rtos_start(void)
     systick_init(71999);
 
 __asm volatile (
-	"ldr r0,=0x2000a128		\n"
+	"ldr r0,=0x2000a131		\n"
 	"mov sp,r0			\n"
 	"pop {r4-r11}			\n"
 	"pop {r0-r3}			\n"
