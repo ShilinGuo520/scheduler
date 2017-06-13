@@ -30,8 +30,10 @@ struct task_list *get_run_task(void)
 
 struct task_list *find_task_by_id(int task_id)
 {
+    int id;
     struct task_list *ret = &head;
-    while((task_id--) && (ret->next)) {
+    id = task_id_count + 1 - task_id;
+    while((id--) && (ret->next)) {
         ret = ret->next;
     }
     return ret;

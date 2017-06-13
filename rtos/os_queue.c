@@ -14,8 +14,7 @@ int send_msg_queues(int recv_id, void *msg)
     struct msg_queues_list *queues_list;
     struct msg_queues_list *queues_list_head;
     struct msg_queues_list *queues_list_last;
-    printf("s\n\r");
-    recv_task = find_task_by_id(4);
+    recv_task = find_task_by_id(recv_id);
     queues_list_head = recv_task->task->msg_list.head;
     queues_list_last = recv_task->task->msg_list.last;
 

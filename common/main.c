@@ -26,7 +26,8 @@ void task_01(void)
 	while(1) {
 		rec = recv_msg_queues();
 		if (rec != NULL) {
-			printf("T-1 rec:%d\n\r", *rec);
+			printf("recv:%d\n\r", *rec);
+//			printf("f 0x%x\n\r",rec);
 			free(rec);
 		}
 	}
@@ -57,11 +58,12 @@ void task_04(void)
 	int i = 0;
 	unsigned char *send;
 	while(1) {
-//		printf("T-4 time:%d\n\r", i++);
-		send = malloc(sizeof(unsigned char));
+		printf("send:%d\n\r", i++);
+		send = malloc(4);
+//		printf("m 0x%x\n\r", send);
 		*send = i;
 		send_msg_queues(task_01_id, send);
-		os_delay_ms(1000);
+		os_delay_ms(2000);
 	}
 }
 
