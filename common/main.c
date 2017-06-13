@@ -25,20 +25,23 @@ void task_01(void)
 	unsigned char *rec;
 	while(1) {
 		rec = recv_msg_queues();
-		if (rec != NULL) {
-			printf("recv:%d\n\r", *rec);
-//			printf("f 0x%x\n\r",rec);
+		if (rec) {
+			printf("T1:%d\n\r", *rec);
 			free(rec);
 		}
 	}
 }
 
+int task_02_id;
 void task_02(void)
 {
-	int i = 0;
+	unsigned char *rec;
 	while(1){
-//		printf("T-2 time:%d\n\r", i++);
-		os_delay_ms(3050);
+		rec = recv_msg_queues();
+		if (rec) {
+			printf("T2:%d\n\r", *rec);
+			free(rec);
+		}
 	}
 }
 
@@ -48,7 +51,7 @@ void task_03(void)
 	int i = 0;
 	while(1) {
 //		printf("T-3 time:%d\n\r", i++);
-		os_delay_ms(2500);
+//		os_delay_ms(250);
 	}
 }
 
@@ -58,12 +61,17 @@ void task_04(void)
 	int i = 0;
 	unsigned char *send;
 	while(1) {
-		printf("send:%d\n\r", i++);
 		send = malloc(4);
-//		printf("m 0x%x\n\r", send);
-		*send = i;
-		send_msg_queues(task_01_id, send);
-		os_delay_ms(2000);
+		if (send != NULL) {
+		    i++;
+		    *send = i;
+		    if (i%2)
+		    	send_msg_queues(task_01_id, send);
+		    else
+			send_msg_queues(task_02_id, send);
+		}
+		os_delay_ms(50);
+		
 	}
 }
 
@@ -81,7 +89,7 @@ int main()
 
     	//TODO:creat task
 	task_01_id = creat_task(task_01, 512, 10);
-	creat_task(task_02, 512, 10);
+	task_02_id = creat_task(task_02, 512, 10);
 	creat_task(task_03, 512, 10);
 	creat_task(task_04, 512, 10);
 

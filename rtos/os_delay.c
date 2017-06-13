@@ -22,6 +22,8 @@ void os_delay_ms(int time)
         return ;
     }
 	timer_st = malloc(sizeof(struct os_timer_list));
+	if(timer_st == NULL)
+		return ;
     portDISABLE_INTERRUPTS();
 	timer_st->next = head_timer->next;
 	head_timer->next = timer_st;

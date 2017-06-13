@@ -21,7 +21,6 @@ void * malloc(int size)
     }
 
     size = size + BLOCK_SIZE - 1;
-
     for (i = 0; i < (MEM_SIZE); i++) {
         for (j = 0; j < 8; j++) {
             if (mem_map[i] & (1 << j)) {
