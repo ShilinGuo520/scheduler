@@ -31,8 +31,8 @@ struct msg_queues_list {
 };
 
 struct task_msg {
-    int msg_count;
     struct msg_queues_list *head;
+    struct msg_queues_list *last;
 };
 
 struct task_p {

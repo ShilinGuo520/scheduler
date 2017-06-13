@@ -121,7 +121,7 @@ int creat_task(void (*func), int stack_size, int priority)
     task->basep = task->base;
 
     task->msg_list.head = NULL;
-    task->msg_list.msg_count = 0;
+    task->msg_list.last = NULL;
 
     p = malloc(sizeof(struct task_list));
 

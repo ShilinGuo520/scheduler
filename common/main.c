@@ -18,12 +18,17 @@ void info(void)
 	printf("\n\rRam Size:%d\n\r", RAM_SIZE);
 }
 
+
+int task_01_id;
 void task_01(void)
 {
-	int i = 0;
+	unsigned char *rec;
 	while(1) {
-		printf("T-1 time:%d\n\r", i++);
-		os_delay_ms(560);
+		rec = recv_msg_queues();
+		if (rec != NULL) {
+			printf("T-1 rec:%d\n\r", *rec);
+			free(rec);
+		}
 	}
 }
 
@@ -31,7 +36,7 @@ void task_02(void)
 {
 	int i = 0;
 	while(1){
-		printf("T-2 time:%d\n\r", i++);
+//		printf("T-2 time:%d\n\r", i++);
 		os_delay_ms(3050);
 	}
 }
@@ -41,7 +46,7 @@ void task_03(void)
 {
 	int i = 0;
 	while(1) {
-		printf("T-3 time:%d\n\r", i++);
+//		printf("T-3 time:%d\n\r", i++);
 		os_delay_ms(2500);
 	}
 }
@@ -50,8 +55,12 @@ void task_03(void)
 void task_04(void)
 {
 	int i = 0;
+	unsigned char *send;
 	while(1) {
-		printf("T-4 time:%d\n\r", i++);
+//		printf("T-4 time:%d\n\r", i++);
+		send = malloc(sizeof(unsigned char));
+		*send = i;
+		send_msg_queues(task_01_id, send);
 		os_delay_ms(1000);
 	}
 }
@@ -69,7 +78,7 @@ int main()
     	task_init();    //init idle task (head)
 
     	//TODO:creat task
-	creat_task(task_01, 512, 10);
+	task_01_id = creat_task(task_01, 512, 10);
 	creat_task(task_02, 512, 10);
 	creat_task(task_03, 512, 10);
 	creat_task(task_04, 512, 10);
