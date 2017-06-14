@@ -31,12 +31,12 @@ int time_out_03;
 
 void set_time_out(int time)
 {
-	time_out_03 = time;
+    time_out_03 = time;
 }
 
 bool get_time_out()
 {
-	return time_out_03;
+    return time_out_03;
 }
 
 void delay_ms(int time)
@@ -51,8 +51,8 @@ void TIM3_IRQHandler(void)
     u32 rwmVal;
     rwmVal = TIM3->SR;
     if(rwmVal & 0x0001) {
-		if(time_out_03 > 0)
-			time_out_03--;
+        if(time_out_03 > 0)
+            time_out_03--;
     }
     rwmVal &=~(1 << 0);
     TIM3->SR = rwmVal;

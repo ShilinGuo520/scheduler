@@ -45,11 +45,11 @@ void nvic_disable_interrupts(void)
     rNVIC->ICPR[0] = 0xFFFFFFFF;
     rNVIC->ICPR[1] = 0xFFFFFFFF;
 
-	*(vu32*)(STK_CTRL) = 0x04;
+    *(vu32*)(STK_CTRL) = 0x04;
 }
 
 void nvic_vtor_remapping(unsigned int offset)
 {
-	*(vu32*)(SCB_VTOR) = offset;
+    *(vu32*)(SCB_VTOR) = offset;
 }
 

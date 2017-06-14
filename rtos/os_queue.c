@@ -24,11 +24,11 @@ int send_msg_queues(int recv_id, void *msg)
     queues_list->msg.data = msg;
 portDISABLE_INTERRUPTS();
     if (recv_task->task->msg_list.head == NULL) {
-	recv_task->task->msg_list.head = queues_list;
+        recv_task->task->msg_list.head = queues_list;
         recv_task->task->msg_list.last = queues_list;
     } else {
-	recv_task->task->msg_list.last->next = queues_list;
-	recv_task->task->msg_list.last = recv_task->task->msg_list.last->next;
+        recv_task->task->msg_list.last->next = queues_list;
+        recv_task->task->msg_list.last = recv_task->task->msg_list.last->next;
     }
 portENABLE_INTERRUPTS();
     recv_task->task->status &= ~(0x0002);
@@ -47,10 +47,10 @@ void *recv_msg_queues(void)
         if (recv_task->task->msg_list.head != NULL) {
             msg = recv_task->task->msg_list.head->msg.data;
             recv_queues = recv_task->task->msg_list.head;
-	    portDISABLE_INTERRUPTS();
+        portDISABLE_INTERRUPTS();
             recv_task->task->msg_list.head = recv_task->task->msg_list.head->next;
-	    portENABLE_INTERRUPTS();
-	    free(recv_queues); 
+        portENABLE_INTERRUPTS();
+        free(recv_queues); 
             return msg;
         } else {
             recv_task->task->status |= 0x0002;

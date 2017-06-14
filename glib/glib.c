@@ -5,24 +5,24 @@
 
 void memcpy(unsigned char *dec, unsigned char *src, int size)
 {
-	unsigned char *dec_p, *src_p;
-	dec_p = dec ;
-	src_p = src ;
+    unsigned char *dec_p, *src_p;
+    dec_p = dec ;
+    src_p = src ;
 
-	while(size--) {
-		*dec_p++ = *src_p++;
-	}
+    while(size--) {
+        *dec_p++ = *src_p++;
+    }
 }
 
 
 void memset(unsigned char *src, unsigned char val, int size)
 {
-	unsigned char *src_p;
-	src_p = src;
+    unsigned char *src_p;
+    src_p = src;
 
-	while(size--) {
-		*src_p++ = val;
-	}
+    while(size--) {
+        *src_p++ = val;
+    }
 }
 
 
@@ -48,28 +48,28 @@ static char *upper_digits = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
 int strnlen(const char *s, int count)
 {
-	const char *sc;
-	for(sc = s; *sc != '\0' && count--; ++sc)
-		;
-	return sc - s;
+    const char *sc;
+    for(sc = s; *sc != '\0' && count--; ++sc)
+        ;
+    return sc - s;
 }
 
 int strlen(const char *s)
 {
-	const char *sc;
-	for(sc = s; *sc != '\0'; ++sc)
-		;
-	return sc - s;
+    const char *sc;
+    for(sc = s; *sc != '\0'; ++sc)
+        ;
+    return sc - s;
 }
 
 static int skip_atoi(const char **s)
 {
-	int i = 0;
+    int i = 0;
 
-	while(is_digit(**s))
-		i = i*10 + *((*s)++) - '0';
+    while(is_digit(**s))
+        i = i*10 + *((*s)++) - '0';
 
-	return i;
+    return i;
 }
 
 static char *number(char *str, long num, int base, int size, int precision, int type)
@@ -351,29 +351,29 @@ static int vsprintf(char *buf, const char *fmt, va_list args)
 
 int sprintf(char *buf, const char *fmt, ...)
 {
-	va_list args;
-	int n;
+    va_list args;
+    int n;
 
-	va_start(args, fmt);
-	n = vsprintf(buf, fmt, args);
-	va_end(args);
+    va_start(args, fmt);
+    n = vsprintf(buf, fmt, args);
+    va_end(args);
 
-	return n;
+    return n;
 }
 
 
 int printf(const char *fmt, ...)
 {
-	va_list args;
-	char buf[60];
-	int n;
+    va_list args;
+    char buf[60];
+    int n;
 
-	va_start(args, fmt);
-	n = vsprintf(buf, fmt, args);
-	va_end(args);
-	portDISABLE_INTERRUPTS();
-	fputs(buf);
-	portENABLE_INTERRUPTS();
+    va_start(args, fmt);
+    n = vsprintf(buf, fmt, args);
+    va_end(args);
+    portDISABLE_INTERRUPTS();
+    fputs(buf);
+    portENABLE_INTERRUPTS();
 }
 
 
@@ -393,7 +393,7 @@ int strncmp (const char *str1, const char *str2, int n)
     while (*str1 && *str2 && (*str1 == *str2) && (n--))  
     {
         str1++;  
-	    str2++;  
+        str2++;  
     }  
     return *str1 - *str2;  
 }
