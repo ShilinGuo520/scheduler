@@ -1,5 +1,3 @@
- 
-
 # scheduler
 
 stm32f1xx scheduler
@@ -33,8 +31,11 @@ stm32f1xx scheduler
 * Mem
   * 内存管理单元，主要实现了对动态内存分配和释放，对堆的管理
   * 相关函数：
-    * malloc()
-    * free()
+  
+    malloc()
+    
+    free()
+    
   * 堆尺寸20K供支配
 
 * Driver
@@ -49,9 +50,13 @@ stm32f1xx scheduler
   * 操作系统部分
   * 主要包括：
     * 1.	task线程调度
+    
     * 2.	task挂起
+    
     * 3.	task消息传递
+    
     * 4.	task创建、初始化
+    
     * 5.	task优先级管理
 
 * Common
