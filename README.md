@@ -3,9 +3,9 @@
 stm32f1xx scheduler
 
 
-#RTOS#
+# RTOS
 
-##Overview##
+## Overview
 ==
 主要功能：
 
@@ -26,22 +26,23 @@ stm32f1xx scheduler
 * 临界代码保护
 
 
-##Sub-module##
+## Sub-module
 ==
-* Mem
+### Mem
   * 内存管理单元，主要实现了对动态内存分配和释放，对堆的管理
-  * 相关函数：malloc()、free()
-  * 堆尺寸20K供支配
+  * 相关函数：malloc()、free()  
+  * 堆尺寸20K供支配
 
-* Driver
+### Driver
   * 与SOC片内硬件资源相关驱动：
   * 主要包括timer、uart、gpio、clk、nvic
 
-* Glib
+### Glib
   * 需要用到的c库函数的重新实现
   * 主要包括printf、memcpy、memset、strlen、strcmp
 
-* Rtos
+### Rtos
+
   * 操作系统部分
   * 主要包括：
   
@@ -55,5 +56,5 @@ stm32f1xx scheduler
     
     * 5.	task优先级管理
 
-* Common
+### Common
   * 应用程序
