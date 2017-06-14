@@ -8,39 +8,40 @@ stm32f1xx scheduler
 
 ## Overview
 
-主要功能：
-* task独立调度
-* task通信
-* task主动挂起
-* 支持优先级（可配置）
-* 动态内存管理
-* 动态创建task
-* 超小代码尺寸
-* 临界代码保护
+The main function:
+* Independent scheduling
+* Task message
+* Task state management(Hang ready)
+* Support task priority
+* Dynamic memory management
+* Dynamically create and delete tasks
+* Ultra Small Code Size (5K)
+* Critical code protection
 
 ## Sub-module
 
 ### Mem
-* 内存管理单元，主要实现了对动态内存分配和释放，对堆的管理
-* 相关函数：malloc()、free()  
-* 堆尺寸20K供支配
+* Memory management unit, the main realization of the dynamic memory allocation and release, the heap management
+* Related functions:malloc()、free()  
+* Configurable memory pool size (default 20K)
 
 ### Driver
-* 与SOC片内硬件资源相关驱动：
-* 主要包括timer、uart、gpio、clk、nvic
+* And SOC chip hardware-related drivers:
+* Mainly include:timer、uart、gpio、clk、nvic
 
 ### Glib
-* 需要用到的c库函数的重新实现
-* 主要包括printf、memcpy、memset、strlen、strcmp
+* The reused implementation of the c library function referenced
+* Mainly include:printf、memcpy、memset、strlen、strcmp
 
 ### Rtos
-* 操作系统部分
-* 主要包括：
-    * task线程调度
-    * task挂起
-    * task消息传递
-    * task创建、初始化
-    * task优先级管理
+* Operating system section
+* Mainly include:
+    * Task scheduling
+    * Task state management(Hang ready)
+    * Task message transmission(send recv)
+    * Task create and delete
+    * Task priority management
 
 ### Common
-* 应用程序
+* User application
+* Demo(main.c)
