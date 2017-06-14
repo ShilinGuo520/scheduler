@@ -1,10 +1,9 @@
 
 # scheduler
 
-stm32f1xx scheduler
+> * Support: stm32f1xx
+> * bootloader: https://github.com/ShilinGuo520/bootloader
 
-
-# RTOS
 
 ## Overview
 
@@ -38,7 +37,7 @@ The main function:
 * Mainly include:
     * Task scheduling
     * Task state management(Hang ready)
-    * Task message transmission(send recv)
+    * Task message transmission(send recv)
     * Task create and delete
     * Task priority management
 
