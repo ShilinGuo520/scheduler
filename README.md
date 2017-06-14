@@ -36,16 +36,11 @@ stm32f1xx scheduler
 ### Rtos
 * 操作系统部分
 * 主要包括：
-
->  * task线程调度
-
->  * task挂起
-
->  * task消息传递
-
->  * task创建、初始化
-
->  * task优先级管理
+    * task线程调度
+    * task挂起
+    * task消息传递
+    * task创建、初始化
+    * task优先级管理
 
 ### Common
 * 应用程序
