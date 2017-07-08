@@ -50,8 +50,8 @@ void task_03(void)
 {
     int i = 0;
     while(1) {
-//      printf("T-3 time:%d\n\r", i++);
-//      os_delay_ms(250);
+      printf("T-3 time:%d\n\r", i++);
+      os_delay_ms(2500);
     }
 }
 
@@ -70,7 +70,7 @@ void task_04(void)
             else
             send_msg_queues(task_02_id, send);
         }
-        os_delay_ms(50);
+        os_delay_ms(500);
         
     }
 }
