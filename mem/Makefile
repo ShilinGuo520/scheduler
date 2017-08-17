@@ -4,7 +4,7 @@ ARCH     = armv7-m
 SUBMDL   = stm32f103
 
 TARGET = libmem.a
-SRC = mem.o list.o
+SRC = mem.o
 
 # toolchain (using code sourcery now)
 THUMB    = -mthumb
