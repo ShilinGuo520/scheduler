@@ -3,15 +3,9 @@
 
 #include "types.h"
 
-struct list {
-    char data;
-    struct list *next; 
-};
-
-void * malloc(int size);
-int free(void *mem);
-
-struct list *malloc_list(int size);
-int free_list(struct list *head);
+extern void * malloc(int size);
+extern int free(void *mem);
+extern void memcpy(unsigned char *dec, unsigned char *src, int size);                                                            
+extern void memset(unsigned char *src, unsigned char val, int size);
 
 #endif
