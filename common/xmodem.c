@@ -7,6 +7,7 @@ date:2017-04-18
 #include "uart.h"
 #include "timer.h"
 #include "flash.h"
+#include "mem.h"
 
 #define SOH 0x01
 #define EOT 0x04

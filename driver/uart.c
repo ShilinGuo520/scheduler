@@ -7,7 +7,7 @@
 #include "rcc.h"
 #include "nvic.h"
 #include "glib.h"
-
+#include "mem.h"
 
 unsigned char uart_rx_buff[UART_RX_BUFF_SIZE];
 

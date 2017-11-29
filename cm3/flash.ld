@@ -11,7 +11,7 @@ SECTIONS
 	.text :
 	{
 		. = ALIGN(0x4);
-		KEEP(start_up.o(.text))
+		KEEP(cm3/start_up.o(.text))
 		KEEP(*(.text*))
 		KEEP(*(.rodata))
 		KEEP(*(.rodata*))
